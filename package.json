@@ -15,5 +15,8 @@
     "@types/node": "^20.11.30",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.17.1"
   }
 }
