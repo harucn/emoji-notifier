@@ -1,5 +1,4 @@
 import { App } from '@slack/bolt';
-import { EventFromType } from '@slack/bolt/dist/types/events';
 
 
 // ボットトークンと Signing Secret を使ってアプリを初期化
@@ -12,12 +11,15 @@ app.event('emoji_changed', async ({ event, client }) => {
   try {
     if(event.subtype === 'add') {
       const addedEmoji : string = event.name ?? ''
-      console.log(`emoji added : ${addedEmoji}`)
+      await client.chat.postMessage({
+        channel: process.env.SLACK_CHANNEL_ID ?? '',
+        text: `emoji added : ${addedEmoji}`
+      })
     }
 
     console.log('Run Success')
-  }
-  catch (error) {
+
+  } catch (error) {
     console.error(error)
   }
 });
