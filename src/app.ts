@@ -29,7 +29,7 @@ const createText = (event: EmojiChangedEvent): string => {
     const separator = ' '
     const removedEmojis: string[] = event.names ?? []
     const joined: string = removedEmojis.map((removedEmoji) => `\`${removedEmoji}\``).join(separator)
-    return joined + 'が削除されました :sob:'
+    return joined + ' が削除されました:sob:'
 
   } else if (event.subtype === 'rename') {
     return `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` +
