@@ -1,0 +1,20 @@
+services:
+  - type: web
+    plan: free
+    region: oregon
+    name: emoji-notifier
+    runtime: node
+    repo: https://github.com/haruto-takeuchi/emoji-notifier
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: node dist/app.js
+    autoDeploy: true
+    envVars: # TODO: Set Environment Variables in Dashboard
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_CHANNEL_ID
+        sync: false
+      - key: SLACK_SIGNING_SECRET
+        sync: false
+      - key: NODE_VERSION
+        value: 20.12.2
