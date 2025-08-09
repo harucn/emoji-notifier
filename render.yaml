@@ -4,7 +4,7 @@ services:
     region: oregon
     name: emoji-notifier
     runtime: node
-    repo: https://github.com/haruto-takeuchi/emoji-notifier
+    repo: https://github.com/harucn/emoji-notifier
     branch: main
     buildCommand: npm install && npm run build
     startCommand: node dist/app.js
