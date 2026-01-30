@@ -6,6 +6,9 @@
   "license": "ISC",
   "author": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=22.22.0"
+  },
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",
@@ -17,9 +20,8 @@
     "@slack/bolt": "^3.17.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
+    "@types/node": "^22.0.0",
     "oxfmt": "^0.27.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }
 }
