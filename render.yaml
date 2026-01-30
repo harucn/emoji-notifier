@@ -9,7 +9,8 @@ services:
     buildCommand: npm install && npm run build
     startCommand: node dist/app.js
     autoDeploy: true
-    envVars: # TODO: Set Environment Variables in Dashboard
+    envVars: # Need to set envs in Dashboard
+      # Bot User OAuth Token
       - key: SLACK_BOT_TOKEN
         sync: false
       - key: SLACK_CHANNEL_ID
