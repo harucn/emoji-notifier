@@ -1,5 +1,5 @@
 import { App } from "@slack/bolt";
-import { EmojiChangedEvent } from "@slack/bolt/dist/types/events";
+import { EmojiChangedEvent } from "@slack/types";
 
 // ボットトークンと Signing Secret を使ってアプリを初期化
 const app = new App({
@@ -7,7 +7,7 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-const createText = (event: EmojiChangedEvent): string => {
+const createText = (event: EmojiChangedEvent) => {
   switch (event.subtype) {
     case "add": {
       const addedEmoji = event.name ?? "";
@@ -17,16 +17,13 @@ const createText = (event: EmojiChangedEvent): string => {
     case "remove": {
       const separator = " ";
       const removedEmojis = event.names ?? [];
-      const joined = removedEmojis
-        .map((removedEmoji) => `\`${removedEmoji}\``)
-        .join(separator);
+      const joined = removedEmojis.map((removedEmoji) => `\`${removedEmoji}\``).join(separator);
       return joined + " が削除されました:sob:";
     }
 
     case "rename": {
       return (
-        `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` +
-        `:${event.new_name}:`
+        `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` + `:${event.new_name}:`
       );
     }
 
