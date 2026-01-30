@@ -2,21 +2,24 @@
   "name": "emoji-notifier",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^20.11.30",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
   },
   "dependencies": {
     "@slack/bolt": "^3.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "oxfmt": "^0.27.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
   }
 }
