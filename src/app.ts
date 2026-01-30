@@ -7,7 +7,39 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
+const createText = (event: EmojiChangedEvent): string => {
+  switch (event.subtype) {
+    case "add": {
+      const addedEmoji = event.name ?? "";
+      return `\`${addedEmoji}\` が追加されました！\n` + `:${addedEmoji}:`;
+    }
+
+    case "remove": {
+      const separator = " ";
+      const removedEmojis = event.names ?? [];
+      const joined = removedEmojis
+        .map((removedEmoji) => `\`${removedEmoji}\``)
+        .join(separator);
+      return joined + " が削除されました:sob:";
+    }
+
+    case "rename": {
+      return (
+        `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` +
+        `:${event.new_name}:`
+      );
+    }
+
+    default: {
+      const _check: never = event.subtype;
+      throw new Error(`Unknown subtype: ${_check}`);
+    }
+  }
+};
+
 app.event("emoji_changed", async ({ event, client }) => {
+  console.log("😁 emoji changed");
+  console.log(event);
   try {
     await client.chat.postMessage({
       channel: process.env.SLACK_CHANNEL_ID || "",
@@ -17,25 +49,6 @@ app.event("emoji_changed", async ({ event, client }) => {
     console.error(error);
   }
 });
-
-const createText = (event: EmojiChangedEvent): string => {
-  if (event.subtype === "add") {
-    const addedEmoji: string = event.name ?? "";
-    return `\`${addedEmoji}\` が追加されました！\n` + `:${addedEmoji}:`;
-  } else if (event.subtype === "remove") {
-    const separator = " ";
-    const removedEmojis: string[] = event.names ?? [];
-    const joined: string = removedEmojis
-      .map((removedEmoji) => `\`${removedEmoji}\``)
-      .join(separator);
-    return joined + " が削除されました:sob:";
-  } else if (event.subtype === "rename") {
-    return (
-      `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` + `:${event.new_name}:`
-    );
-  }
-  return "";
-};
 
 (async () => {
   // アプリ起動
