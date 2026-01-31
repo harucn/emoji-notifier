@@ -34,9 +34,16 @@ const createText = (event: EmojiChangedEvent) => {
   }
 };
 
-app.event("emoji_changed", async ({ event, client }) => {
+app.event("emoji_changed", async ({ event, client, context }) => {
   console.log("😁 emoji changed");
-  console.log(event);
+  console.log({
+    event,
+    slack: {
+      retryNum: context.retryNum,
+      retryReason: context.retryReason,
+    },
+  });
+
   try {
     await client.chat.postMessage({
       channel: process.env.SLACK_CHANNEL_ID || "",
