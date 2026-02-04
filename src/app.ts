@@ -37,6 +37,8 @@ const createText = (event: EmojiChangedEvent) => {
   }
 };
 
+const received = new Set();
+
 app.event("emoji_changed", async ({ event, client, context, body }) => {
   console.log("😁 emoji changed");
   console.log({
@@ -47,6 +49,10 @@ app.event("emoji_changed", async ({ event, client, context, body }) => {
       retryReason: context.retryReason,
     },
   });
+
+  const eventKey = `${event.subtype}:${event.name || ""}`;
+  if (received.has(eventKey)) return;
+  received.add(eventKey);
 
   try {
     await client.chat.postMessage({
