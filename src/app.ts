@@ -17,13 +17,16 @@ const createText = (event: EmojiChangedEvent) => {
     case "remove": {
       const separator = " ";
       const removedEmojis = event.names ?? [];
-      const joined = removedEmojis.map((removedEmoji) => `\`${removedEmoji}\``).join(separator);
+      const joined = removedEmojis
+        .map((removedEmoji) => `\`${removedEmoji}\``)
+        .join(separator);
       return joined + " が削除されました:sob:";
     }
 
     case "rename": {
       return (
-        `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` + `:${event.new_name}:`
+        `名前が変更されました \`${event.old_name}\`→\`${event.new_name}\`\n` +
+        `:${event.new_name}:`
       );
     }
 
@@ -34,10 +37,11 @@ const createText = (event: EmojiChangedEvent) => {
   }
 };
 
-app.event("emoji_changed", async ({ event, client, context }) => {
+app.event("emoji_changed", async ({ event, client, context, body }) => {
   console.log("😁 emoji changed");
   console.log({
     event,
+    body,
     slack: {
       retryNum: context.retryNum,
       retryReason: context.retryReason,
