@@ -37,12 +37,11 @@ const createText = (event: EmojiChangedEvent) => {
   }
 };
 
-const received = new Set();
+const receiveEvents = new Set();
 
-app.event("emoji_changed", async ({ event, client, context, body }) => {
+app.event("emoji_changed", async ({ body, client, context }) => {
   console.log("😁 emoji changed");
   console.log({
-    event,
     body,
     slack: {
       retryNum: context.retryNum,
@@ -50,9 +49,10 @@ app.event("emoji_changed", async ({ event, client, context, body }) => {
     },
   });
 
-  const eventKey = `${event.subtype}:${event.name || ""}`;
-  if (received.has(eventKey)) return;
-  received.add(eventKey);
+  const { event, event_id: eventId } = body;
+  // Events API のリトライによって同じメッセージが複数回送信されるのを防止
+  if (receiveEvents.has(eventId)) return;
+  receiveEvents.add(eventId);
 
   try {
     await client.chat.postMessage({
